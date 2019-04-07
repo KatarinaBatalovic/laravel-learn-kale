@@ -21,6 +21,24 @@
             <div class="card-body">
                 <form action="{{ route('pages.store') }}" method="post" enctype="multipart/form-data" >
                     @csrf
+                          <div class="form-group">
+                        <label>Top level page</label>
+                        <select name='page_id' class="form-control">
+                            <option value='0'>-- top level page--</option>
+                            @if (count($pagesTopLevel)>0)
+                            @foreach($pagesTopLevel as $value)
+                            <option value='{{$value->id}}' {{ (old('page_id') == $value->id) ? 'selected':'' }}>{{$value->title}}</option>
+                            
+                            @endforeach
+                            @endif
+                           
+                        </select>
+                        @if($errors->has('page_id'))
+                        <div class='text text-danger'>
+                            {{ $errors->first('page_id') }}
+                        </div>
+                        @endif
+                    </div>
                     <div class="form-group">
                         <label>Title *</label>
                         <input type="text" name='title' value='{{ old("title") }}' class="form-control">
@@ -41,7 +59,7 @@
                     </div>
                     <div class="form-group">
                         <label>Image *</label>
-                        <input type="file" name='image' class="form-control">
+                        <input type="file" name='image' >
                         @if($errors->has('image'))
                         <div class='text text-danger'>
                             {{ $errors->first('image') }}
@@ -83,8 +101,8 @@
                     </div>
                     <div class="form-group row">                        
                             <div class="col-md-4 ml-1"><label class="mr-5 ml-1">Header</label></div>
-                            <div class="col-md-2"><label class="mr-3"> <input type="radio" name='header' value='0' {{ (old('header', 0) == 0) ? 'checked':'' }} >No</label></div>
-                            <div class="col-md-5 text-left"><label ><input type="radio" name='header' value='1' {{ (old('header', 0) == 1) ? 'checked':'' }} >Yes</label></div>
+                            <div class="col-md-2"><label class="mr-3"> <input type="radio" name='header' value='0' {{ (old('header', 1) == 0) ? 'checked':'' }} >No</label></div>
+                            <div class="col-md-5 text-left"><label ><input type="radio" name='header' value='1' {{ (old('header', 1) == 1) ? 'checked':'' }} >Yes</label></div>
                         @if($errors->has('header'))
                         <div class='text text-danger'>
                             {{ $errors->first('header') }}
